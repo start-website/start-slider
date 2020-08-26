@@ -37,6 +37,13 @@ gulp.task('move-dist-fonts', function (done) {
     .pipe(gulp.dest('./dist/fonts'));
 })
 
+gulp.task('move-dist-images', function (done) {
+  return gulp.src([
+    './src/images/*.mp4',
+  ])
+    .pipe(gulp.dest('./dist/images'));
+})
+
 gulp.task('sass', function () {
   return gulp.src('./src/scss/style.scss')
   .pipe(sourcemaps.init())
@@ -178,6 +185,6 @@ gulp.task('watch', function() {
 
 gulp.task('default', gulp.parallel('watch', 'move-dist', 'webpack', 'webp', 'sass', 'browser-sync'));
 
-gulp.task('build', gulp.series('postcss', 'clean', 'sass' ,'postcss', 'move-dist', 'move-dist-fonts', 'tiny', 'webpack', 'webp'));
+gulp.task('build', gulp.series('postcss', 'clean', 'sass' ,'postcss', 'move-dist', 'move-dist-fonts', 'move-dist-images', 'tiny', 'webpack', 'webp'));
 
 
