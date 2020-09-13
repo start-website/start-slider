@@ -45,7 +45,10 @@ gulp.task('move-dist-images', function (done) {
 })
 
 gulp.task('sass', function () {
-  return gulp.src('./src/scss/style.scss')
+  return gulp.src([
+    './src/scss/style.scss',
+    './src/scss/backend-webasyst.scss'
+  ])
   .pipe(sourcemaps.init())
     .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
   .pipe(sourcemaps.write('./'))
@@ -90,14 +93,14 @@ const webpackConfig = {
   mode: isDev ? 'development' : 'production',
   entry: {
     scripts: './src/js/_scripts.js',
-    //'slider-settings': './src/js/_slider-settings.js'
+    'backend-webasyst': './src/js/_backend-webasyst.js'
   },
   output: {
     filename: '[name].js',
   },
   optimization: {
 		// We no not want to minimize our code.
-		minimize: true
+		minimize: false
 	},
   module: {
     rules: [
@@ -123,7 +126,7 @@ const webpackConfig = {
 gulp.task('webpack', function() {
   return gulp.src([
     './src/js/_scripts.js',
-    './src/js/_slider-settings.js'
+    './src/js/_backend-webasyst.js'
   ])
     .pipe(webpack(webpackConfig))
     .pipe(gulp.dest(isDev ? './src/js' : './dist/js'));
