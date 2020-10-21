@@ -2207,11 +2207,13 @@ window.addEventListener('load', function () {
           fn();
         };
 
-        changeSliderBackground(function () {
-          _this7.slideActiveArray[slideIndex].style.backgroundSize = 'calc(100% + 150px)';
+        if (viewportLarge) {
+          changeSliderBackground(function () {
+            _this7.slideActiveArray[slideIndex].style.backgroundSize = 'calc(100% + 150px)';
 
-          _this7.slideActiveArray[slideIndex].addEventListener('mousemove', BGmove);
-        });
+            _this7.slideActiveArray[slideIndex].addEventListener('mousemove', BGmove);
+          });
+        }
       }
     }, {
       key: "addBackgroundVideo",
@@ -2425,7 +2427,7 @@ window.addEventListener('load', function () {
     selector: '.my-slider',
     arrows: true,
     buttonsSwitches: true,
-    autoPlay: true,
+    autoPlay: false,
     autoPlaySpeed: 15,
     fonts: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap, https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap, https://fonts.googleapis.com/css2?family=Pacifico&display=swap',
     fontNameTitle: '"Roboto Condensed", sans-serif',
