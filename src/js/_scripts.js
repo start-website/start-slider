@@ -698,7 +698,7 @@ window.addEventListener('load', function () {
                 buttonBorder: '2px solid #fff',
                 buttonBackgroundHover: '#fff',
                 buttonTextColorHover: '#000',
-                parallaxInfo: true,
+                parallaxInfo: false,
                 colorNavigation: '#fff',
                 slideEffect: '', // backgroundMovement, pallaxMouseMove, backgroundVideo
             },
