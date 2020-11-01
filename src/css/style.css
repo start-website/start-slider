@@ -400,7 +400,7 @@
   .slider-start__product-imgbox {
     display: block;
     width: 100%;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   }
 }
 
@@ -448,7 +448,7 @@
 @media (max-width: 920px) {
   .slider-start__product-title {
     text-align: center;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   }
 }
 
@@ -482,7 +482,7 @@
 @media (max-width: 920px) {
   .slider-start__product-description {
     text-align: center;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   }
 }
 
@@ -495,7 +495,7 @@
 
 @media (min-width: 920px) and (max-width: 1360px) {
   .slider-start__product-prices {
-    margin-bottom: calc(0.02273 * 100vw + -10.90909px);
+    margin-bottom: calc(0.01818 * 100vw + -4.72727px);
   }
 }
 

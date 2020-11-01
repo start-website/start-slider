@@ -340,7 +340,7 @@
         @media (max-width: 920px) {
             display: block;
             width: 100%;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
     }
 
@@ -370,7 +370,7 @@
         @include r-margin(0, 0, 20px, 0, 0, 0, 10px, 0, 1360px, 920px);
         @media (max-width: 920px) {
             text-align: center;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
     }
 
@@ -383,13 +383,13 @@
         @include r-margin(0, 0, 20px, 0, 0, 0, 10px, 0, 1360px, 920px);
         @media (max-width: 920px) {
             text-align: center;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
     }
 
     &__product-prices {
         color: #fff;
-        @include r-margin(0, 0, 20px, 0, 0, 0, 10px, 0, 1360px, 920px);
+        @include r-margin(0, 0, 20px, 0, 0, 0, 12px, 0, 1360px, 920px);
         text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
         text-align: left;
         @media screen and (max-width: 920px) {

@@ -2517,7 +2517,7 @@ window.addEventListener('load', function () {
     selector: '.slider-start',
     arrows: true,
     buttonsSwitches: true,
-    autoPlay: false,
+    autoPlay: true,
     autoPlaySpeed: 15,
     fonts: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap, https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap, https://fonts.googleapis.com/css2?family=Pacifico&display=swap',
     fontNameTitle: '"Roboto Condensed", sans-serif',

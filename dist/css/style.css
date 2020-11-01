@@ -744,7 +744,7 @@
   .slider-start__product-imgbox {
     display: block;
     width: 100%;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   }
 
   .slider-start__product-info {
@@ -755,12 +755,12 @@
 
   .slider-start__product-title {
     text-align: center;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   }
 
   .slider-start__product-description {
     text-align: center;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
   }
 
   .slider-start__product-buttonbox {
@@ -905,8 +905,8 @@
   }
 
   .slider-start__product-prices {
-    margin-bottom: -webkit-calc(0.02273 * 100vw + -10.90909px);
-    margin-bottom: -moz-calc(0.02273 * 100vw + -10.90909px);
-    margin-bottom: calc(0.02273 * 100vw + -10.90909px);
+    margin-bottom: -webkit-calc(0.01818 * 100vw + -4.72727px);
+    margin-bottom: -moz-calc(0.01818 * 100vw + -4.72727px);
+    margin-bottom: calc(0.01818 * 100vw + -4.72727px);
   }
 }
