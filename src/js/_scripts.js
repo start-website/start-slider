@@ -26,7 +26,8 @@ window.addEventListener('load', function () {
                 if (this.settings[i].slideActive) {
                     let tagSlide = document.createElement('div');
                     tagSlide.className = 'slider-start__slide';
-                    tagSlide.style.backgroundImage = `url(${this.settings[i].backgroundImage})`;
+                    if (this.settings[i].backgroundImage) tagSlide.style.backgroundImage = `url(${this.settings[i].backgroundImage})`;
+                    if (this.settings[i].backgroundColor) tagSlide.style.backgroundColor = this.settings[i].backgroundColor;
                     this.slider.appendChild(tagSlide);
                     if (i === 0) setTimeout(() => tagSlide.className += ' slider-start__slide_active', 10);
 
@@ -83,6 +84,10 @@ window.addEventListener('load', function () {
                             }
 
                             if (this.settings[i].button) {
+                                let tagSlideButtonBox = document.createElement('div');
+                                tagSlideButtonBox.className = 'slider-start__button-box';
+                                tagSlideInfo.appendChild(tagSlideButtonBox);
+
                                 let tagSlideButton = document.createElement('a');
                                 tagSlideButton.className = 'slider-start__button';
                                 tagSlideButton.setAttribute('href', this.settings[i].buttonLink);
@@ -91,7 +96,7 @@ window.addEventListener('load', function () {
                                 tagSlideButton.style.setProperty('background-color', this.settings[i].buttonBackground, 'important');
                                 tagSlideButton.style.setProperty('border', this.settings[i].buttonBorder, 'important');
                                 tagSlideButton.innerHTML = this.settings[i].buttonText;
-                                tagSlideInfo.appendChild(tagSlideButton);
+                                tagSlideButtonBox.appendChild(tagSlideButton);
 
                                 if (this.settings[i].buttonBackgroundHover) {
                                     buttonHover(tagSlideButton);
@@ -171,6 +176,10 @@ window.addEventListener('load', function () {
                                 tagSlideProductPriceNew.appendChild(tagSlideProductPriceNewBlacken);
                             }
 
+                            let tagSlideProductButttonBox = document.createElement('div');
+                            tagSlideProductButttonBox.className = 'slider-start__product-buttonbox';
+                            tagSlideProductInfo.appendChild(tagSlideProductButttonBox);
+
                             let tagSlideProductButtton = document.createElement('a');
                             tagSlideProductButtton.className = 'slider-start__button slider-start__product-button';
                             tagSlideProductButtton.setAttribute('href', this.settings[i].productLink);
@@ -179,7 +188,7 @@ window.addEventListener('load', function () {
                             tagSlideProductButtton.style.setProperty('background-color', this.settings[i].buttonBackground, 'important');
                             tagSlideProductButtton.style.setProperty('border', this.settings[i].buttonBorder, 'important');
                             tagSlideProductButtton.innerHTML = this.settings[i].buttonText;
-                            tagSlideProductInfo.appendChild(tagSlideProductButtton);
+                            tagSlideProductButttonBox.appendChild(tagSlideProductButtton);
 
                             buttonHover(tagSlideProductButtton);
                             break;
@@ -213,14 +222,28 @@ window.addEventListener('load', function () {
         }
 
         addButtonsSwitches() {
+            const slideCount = this.slideActiveArray.length;
+
             let tagButtonsSwitches = document.createElement('div');
             tagButtonsSwitches.className = 'slider-start__buttons-switches';
             this.slider.appendChild(tagButtonsSwitches);
-            for (let i = 0; i < this.slideActiveArray.length; i++) {
+
+            function getButtonSwitchSize() {
+                const widthButtonsSwitches = tagButtonsSwitches.offsetWidth;
+                const buttonSwitchPaddindSide = slideCount * (5 * 2);
+                let buttonSwitchSize = (widthButtonsSwitches - buttonSwitchPaddindSide) / slideCount;
+
+                if (buttonSwitchSize > 60) buttonSwitchSize = 60;
+
+                return buttonSwitchSize + 'px'; 
+            }
+            const buttonSwitchSize = getButtonSwitchSize();
+
+            for (let i = 0; i < slideCount; i++) {
                 let tagButtonSwitch = document.createElement('button');
                 tagButtonSwitch.setAttribute('role', 'button');
                 tagButtonSwitch.className = 'slider-start__button-switch';
-                tagButtonSwitch.innerHTML = '<span></span>';
+                tagButtonSwitch.innerHTML = '<span style="max-width:' + buttonSwitchSize + '"></span>';
                 tagButtonsSwitches.appendChild(tagButtonSwitch);
                 if (i === 0) tagButtonSwitch.className = 'slider-start__button-switch slider-start__button-switch_active';
             }
@@ -375,6 +398,61 @@ window.addEventListener('load', function () {
             }
         }
 
+        sliderSwipe() {
+            let touchStartX;
+            let touchChangeX;
+            let touchStartY;
+            let touchChangeY;
+            const self = this;
+
+            this.slider.addEventListener('touchstart', function (e) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            })
+            this.slider.addEventListener('touchmove', function (e) {
+                touchChangeX = touchStartX - e.touches[0].clientX;
+                touchChangeY = Math.ceil(touchStartY - e.touches[0].clientY);
+                
+            })
+            this.slider.addEventListener('touchend', function (e) {
+                if (touchChangeY < 30 && touchChangeY > -30) {
+                    if (touchChangeX > 0) {
+                        // swipe right
+                        self._removeActiveSliders();
+                        self._removeClassButtonsSwitchActive();
+                        self.slideIndex++;
+    
+                        if (self.slideIndex > self.slideActiveArray.length - 1) {
+                            self.slideIndex = 0;
+                        }
+    
+                        self._addActiveSliders(self.slideIndex);
+    
+                        if (self.buttonsSwitches) self._addClassButtonsSwitchActive(self.slideIndex);
+    
+                        self._addSlideEffects(self.slideIndex);
+                    } else if (touchChangeX < 0) {
+                        // swipe left
+                        self._removeActiveSliders();
+    
+                        if (self.buttonsSwitches) self._removeClassButtonsSwitchActive();
+    
+                        if (self.slideIndex === 0) {
+                            self.slideIndex = self.slideActiveArray.length;
+                        }
+    
+                        self.slideIndex--;
+                        self._addActiveSliders(self.slideIndex);
+    
+                        if (self.buttonsSwitches) self._addClassButtonsSwitchActive(self.slideIndex);
+    
+                        self._addSlideEffects(self.slideIndex);
+                    }
+                }
+                
+            })
+        }
+
         addParallaxInfo(slideIndex) {
             const sliderInfoArray = document.querySelectorAll('.slider-start__info');
 
@@ -434,6 +512,11 @@ window.addEventListener('load', function () {
             if (this.slideAutoPlay && this.slideActiveArray[slideIndex].className === 'slider-start__slide slider-start__slide_active') {
                 setTimeout(() => { clearInterval(timePositionX); }, `${this.slideAutoPlaySpeed}000`);
             }
+
+            this.slider.addEventListener('touchend', function (e) {
+                clearInterval(timePositionX);
+            })
+            
         }
 
         addParallaxMouseMove(slideIndex) {
@@ -637,28 +720,39 @@ window.addEventListener('load', function () {
             const preload = document.querySelector('.slider-start__preloader');
             this.slider.removeChild(preload);
 
-            if (this.settings) this.addSlide();
+            if (this.settings) {
+                this.addSlide();
+                this.sliderSwipe();
+                this.addSliderFonts();
+                this.changeToWebp();
+            } 
 
             if (this.settings[0].slideType === 'product') {
                 const slidersInfoArray = document.querySelectorAll('.slider-start__info');
                 slidersInfoArray[0].style.maxWidth = 'none';
             }
 
-            if (this.settings) this.addSliderFonts();
-            if (this.settings) this.changeToWebp();
-            if (this.arrows) this.addArrows();
-            if (this.arrows) this.toggleArrowsSliders();
-            if (this.buttonsSwitches) this.addButtonsSwitches();
-            if (this.buttonsSwitches) this.toogleButtonsSwitchesSliders();
-            if (this.settings) this.slideEffects();
+            if (this.arrows) {
+                this.addArrows();
+                this.toggleArrowsSliders();
+            } 
+
+            if (this.buttonsSwitches) {
+                this.addButtonsSwitches();
+                this.toogleButtonsSwitchesSliders();
+            } 
+
+            if (this.settings) {
+                this.slideEffects();                
+            } 
         }
     }
 
-    const webasyst = new StartSlider({
-        selector: '.my-slider',
+    const startSliderWebasyst = new StartSlider({
+        selector: '.slider-start',
         arrows: true,
         buttonsSwitches: true,
-        autoPlay: true,
+        autoPlay: false,
         autoPlaySpeed: 15,
         fonts: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap, https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap, https://fonts.googleapis.com/css2?family=Pacifico&display=swap',
         fontNameTitle: '"Roboto Condensed", sans-serif',
@@ -671,13 +765,13 @@ window.addEventListener('load', function () {
                 slideActive: true,
                 productTitle: 'Demo item',
                 productDescription: 'Product description Product description Product description Product description Product description Product description Product description Product description Product description Product description',
-                productPrice: '12000 $',
-                productPriceNew: '9000 $',
+                productPrice: '12000$',
+                productPriceNew: '9000$',
                 productPriceColor: '#58E000',
                 productPriceNewColor: '#ccc',
                 productPriceNewColorBlacken: 'red',
-                productImg: './images/bike2.jpg',
-                productImgWebp: './images/bike2.webp',
+                productImg: './images/iphone12.png',
+                productImgWebp: './images/iphone12.webp',
                 productLink: '#',
                 title: 'SLIDER HEADER',
                 titleTag: 'h1',
@@ -687,8 +781,9 @@ window.addEventListener('load', function () {
                 textAccentColor: '#fff',
                 text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, quidem veritatis? Dicta hic voluptatum natus vitae dolor. Animi harum molestiae debitis earum dignissimos exercitationem dolorum laboriosam, veritatis omnis a dolore?',
                 textColor: '#fff',
-                backgroundImage: './images/bicycle.jpg',
-                backgroundImageWebp: './images/bicycle.webp',
+                backgroundColor: '#000',
+                backgroundImage: './images/slide-bg-apple.jpg',
+                backgroundImageWebp: '',
                 backgroundVideo: '',
                 button: true,
                 buttonLink: '#link',
@@ -757,7 +852,7 @@ window.addEventListener('load', function () {
                 titleAnimation: true,
                 textAccent: '',
                 textAccentColor: '',
-                text: 'Parallax effect of moving the background image when moving the cursor',
+                text: 'Parallax effect of moving the background image when moving the cursor on desktop',
                 textColor: '#fff',
                 backgroundImage: './images/space.jpg',
                 backgroundImageWebp: './images/space.webp',
@@ -850,6 +945,6 @@ window.addEventListener('load', function () {
     });
 
 
-    webasyst.active();
+    startSliderWebasyst.active();
 })
 

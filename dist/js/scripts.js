@@ -1746,7 +1746,8 @@ window.addEventListener('load', function () {
           if (_this.settings[i].slideActive) {
             var tagSlide = document.createElement('div');
             tagSlide.className = 'slider-start__slide';
-            tagSlide.style.backgroundImage = "url(".concat(_this.settings[i].backgroundImage, ")");
+            if (_this.settings[i].backgroundImage) tagSlide.style.backgroundImage = "url(".concat(_this.settings[i].backgroundImage, ")");
+            if (_this.settings[i].backgroundColor) tagSlide.style.backgroundColor = _this.settings[i].backgroundColor;
 
             _this.slider.appendChild(tagSlide);
 
@@ -1804,6 +1805,9 @@ window.addEventListener('load', function () {
                 }
 
                 if (_this.settings[i].button) {
+                  var tagSlideButtonBox = document.createElement('div');
+                  tagSlideButtonBox.className = 'slider-start__button-box';
+                  tagSlideInfo.appendChild(tagSlideButtonBox);
                   var tagSlideButton = document.createElement('a');
                   tagSlideButton.className = 'slider-start__button';
                   tagSlideButton.setAttribute('href', _this.settings[i].buttonLink);
@@ -1812,7 +1816,7 @@ window.addEventListener('load', function () {
                   tagSlideButton.style.setProperty('background-color', _this.settings[i].buttonBackground, 'important');
                   tagSlideButton.style.setProperty('border', _this.settings[i].buttonBorder, 'important');
                   tagSlideButton.innerHTML = _this.settings[i].buttonText;
-                  tagSlideInfo.appendChild(tagSlideButton);
+                  tagSlideButtonBox.appendChild(tagSlideButton);
 
                   if (_this.settings[i].buttonBackgroundHover) {
                     buttonHover(tagSlideButton);
@@ -1884,6 +1888,9 @@ window.addEventListener('load', function () {
                   tagSlideProductPriceNew.appendChild(tagSlideProductPriceNewBlacken);
                 }
 
+                var tagSlideProductButttonBox = document.createElement('div');
+                tagSlideProductButttonBox.className = 'slider-start__product-buttonbox';
+                tagSlideProductInfo.appendChild(tagSlideProductButttonBox);
                 var tagSlideProductButtton = document.createElement('a');
                 tagSlideProductButtton.className = 'slider-start__button slider-start__product-button';
                 tagSlideProductButtton.setAttribute('href', _this.settings[i].productLink);
@@ -1892,7 +1899,7 @@ window.addEventListener('load', function () {
                 tagSlideProductButtton.style.setProperty('background-color', _this.settings[i].buttonBackground, 'important');
                 tagSlideProductButtton.style.setProperty('border', _this.settings[i].buttonBorder, 'important');
                 tagSlideProductButtton.innerHTML = _this.settings[i].buttonText;
-                tagSlideProductInfo.appendChild(tagSlideProductButtton);
+                tagSlideProductButttonBox.appendChild(tagSlideProductButtton);
                 buttonHover(tagSlideProductButtton);
                 break;
             }
@@ -1930,15 +1937,26 @@ window.addEventListener('load', function () {
     }, {
       key: "addButtonsSwitches",
       value: function addButtonsSwitches() {
+        var slideCount = this.slideActiveArray.length;
         var tagButtonsSwitches = document.createElement('div');
         tagButtonsSwitches.className = 'slider-start__buttons-switches';
         this.slider.appendChild(tagButtonsSwitches);
 
-        for (var i = 0; i < this.slideActiveArray.length; i++) {
+        function getButtonSwitchSize() {
+          var widthButtonsSwitches = tagButtonsSwitches.offsetWidth;
+          var buttonSwitchPaddindSide = slideCount * (5 * 2);
+          var buttonSwitchSize = (widthButtonsSwitches - buttonSwitchPaddindSide) / slideCount;
+          if (buttonSwitchSize > 60) buttonSwitchSize = 60;
+          return buttonSwitchSize + 'px';
+        }
+
+        var buttonSwitchSize = getButtonSwitchSize();
+
+        for (var i = 0; i < slideCount; i++) {
           var tagButtonSwitch = document.createElement('button');
           tagButtonSwitch.setAttribute('role', 'button');
           tagButtonSwitch.className = 'slider-start__button-switch';
-          tagButtonSwitch.innerHTML = '<span></span>';
+          tagButtonSwitch.innerHTML = '<span style="max-width:' + buttonSwitchSize + '"></span>';
           tagButtonsSwitches.appendChild(tagButtonSwitch);
           if (i === 0) tagButtonSwitch.className = 'slider-start__button-switch slider-start__button-switch_active';
         }
@@ -2125,6 +2143,62 @@ window.addEventListener('load', function () {
         }
       }
     }, {
+      key: "sliderSwipe",
+      value: function sliderSwipe() {
+        var touchStartX;
+        var touchChangeX;
+        var touchStartY;
+        var touchChangeY;
+        var self = this;
+        this.slider.addEventListener('touchstart', function (e) {
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        });
+        this.slider.addEventListener('touchmove', function (e) {
+          touchChangeX = touchStartX - e.touches[0].clientX;
+          touchChangeY = Math.ceil(touchStartY - e.touches[0].clientY);
+        });
+        this.slider.addEventListener('touchend', function (e) {
+          if (touchChangeY < 30 && touchChangeY > -30) {
+            if (touchChangeX > 0) {
+              // swipe right
+              self._removeActiveSliders();
+
+              self._removeClassButtonsSwitchActive();
+
+              self.slideIndex++;
+
+              if (self.slideIndex > self.slideActiveArray.length - 1) {
+                self.slideIndex = 0;
+              }
+
+              self._addActiveSliders(self.slideIndex);
+
+              if (self.buttonsSwitches) self._addClassButtonsSwitchActive(self.slideIndex);
+
+              self._addSlideEffects(self.slideIndex);
+            } else if (touchChangeX < 0) {
+              // swipe left
+              self._removeActiveSliders();
+
+              if (self.buttonsSwitches) self._removeClassButtonsSwitchActive();
+
+              if (self.slideIndex === 0) {
+                self.slideIndex = self.slideActiveArray.length;
+              }
+
+              self.slideIndex--;
+
+              self._addActiveSliders(self.slideIndex);
+
+              if (self.buttonsSwitches) self._addClassButtonsSwitchActive(self.slideIndex);
+
+              self._addSlideEffects(self.slideIndex);
+            }
+          }
+        });
+      }
+    }, {
       key: "addParallaxInfo",
       value: function addParallaxInfo(slideIndex) {
         var sliderInfoArray = document.querySelectorAll('.slider-start__info');
@@ -2188,6 +2262,10 @@ window.addEventListener('load', function () {
             clearInterval(timePositionX);
           }, "".concat(this.slideAutoPlaySpeed, "000"));
         }
+
+        this.slider.addEventListener('touchend', function (e) {
+          clearInterval(timePositionX);
+        });
       }
     }, {
       key: "addParallaxMouseMove",
@@ -2403,31 +2481,43 @@ window.addEventListener('load', function () {
       value: function active() {
         var preload = document.querySelector('.slider-start__preloader');
         this.slider.removeChild(preload);
-        if (this.settings) this.addSlide();
+
+        if (this.settings) {
+          this.addSlide();
+          this.sliderSwipe();
+          this.addSliderFonts();
+          this.changeToWebp();
+        }
 
         if (this.settings[0].slideType === 'product') {
           var slidersInfoArray = document.querySelectorAll('.slider-start__info');
           slidersInfoArray[0].style.maxWidth = 'none';
         }
 
-        if (this.settings) this.addSliderFonts();
-        if (this.settings) this.changeToWebp();
-        if (this.arrows) this.addArrows();
-        if (this.arrows) this.toggleArrowsSliders();
-        if (this.buttonsSwitches) this.addButtonsSwitches();
-        if (this.buttonsSwitches) this.toogleButtonsSwitchesSliders();
-        if (this.settings) this.slideEffects();
+        if (this.arrows) {
+          this.addArrows();
+          this.toggleArrowsSliders();
+        }
+
+        if (this.buttonsSwitches) {
+          this.addButtonsSwitches();
+          this.toogleButtonsSwitchesSliders();
+        }
+
+        if (this.settings) {
+          this.slideEffects();
+        }
       }
     }]);
 
     return StartSlider;
   }();
 
-  var webasyst = new StartSlider({
-    selector: '.my-slider',
+  var startSliderWebasyst = new StartSlider({
+    selector: '.slider-start',
     arrows: true,
     buttonsSwitches: true,
-    autoPlay: true,
+    autoPlay: false,
     autoPlaySpeed: 15,
     fonts: 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap, https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:wght@300&display=swap, https://fonts.googleapis.com/css2?family=Pacifico&display=swap',
     fontNameTitle: '"Roboto Condensed", sans-serif',
@@ -2440,13 +2530,13 @@ window.addEventListener('load', function () {
       slideActive: true,
       productTitle: 'Demo item',
       productDescription: 'Product description Product description Product description Product description Product description Product description Product description Product description Product description Product description',
-      productPrice: '12000 $',
-      productPriceNew: '9000 $',
+      productPrice: '12000$',
+      productPriceNew: '9000$',
       productPriceColor: '#58E000',
       productPriceNewColor: '#ccc',
       productPriceNewColorBlacken: 'red',
-      productImg: './images/bike2.jpg',
-      productImgWebp: './images/bike2.webp',
+      productImg: './images/iphone12.png',
+      productImgWebp: './images/iphone12.webp',
       productLink: '#',
       title: 'SLIDER HEADER',
       titleTag: 'h1',
@@ -2456,8 +2546,9 @@ window.addEventListener('load', function () {
       textAccentColor: '#fff',
       text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, quidem veritatis? Dicta hic voluptatum natus vitae dolor. Animi harum molestiae debitis earum dignissimos exercitationem dolorum laboriosam, veritatis omnis a dolore?',
       textColor: '#fff',
-      backgroundImage: './images/bicycle.jpg',
-      backgroundImageWebp: './images/bicycle.webp',
+      backgroundColor: '#000',
+      backgroundImage: './images/slide-bg-apple.jpg',
+      backgroundImageWebp: '',
       backgroundVideo: '',
       button: true,
       buttonLink: '#link',
@@ -2528,7 +2619,7 @@ window.addEventListener('load', function () {
       titleAnimation: true,
       textAccent: '',
       textAccentColor: '',
-      text: 'Parallax effect of moving the background image when moving the cursor',
+      text: 'Parallax effect of moving the background image when moving the cursor on desktop',
       textColor: '#fff',
       backgroundImage: './images/space.jpg',
       backgroundImageWebp: './images/space.webp',
@@ -2621,7 +2712,7 @@ window.addEventListener('load', function () {
 
     }]
   });
-  webasyst.active();
+  startSliderWebasyst.active();
 });
 
 /***/ }),

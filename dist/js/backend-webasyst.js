@@ -1871,10 +1871,11 @@ function tabsSwitch() {
   }
 
   var _loop2 = function _loop2(i) {
-    tabButtonArray[i].addEventListener('click', function () {
+    tabButtonArray[i].addEventListener('click', function (e) {
+      e.preventDefault();
       removeActive();
       selectChange(i);
-      this.className += ' sliderStart__tab-button_active';
+      this.className += ' sliderStart__tab-button_active selected';
       tabContentArray[i].className += ' sliderStart__tab-content_active';
     });
   };
@@ -1929,22 +1930,14 @@ function checkInputs() {
           if (elem.className === 'image') {
             elem.childNodes.forEach(function (imageChild) {
               if (/delete-image/gi.test(imageChild.className)) {
-                imageChild.addEventListener('click', function (e) {
+                var delImageBtn = imageChild;
+                delImageBtn.addEventListener('click', function (e) {
                   e.preventDefault();
                   this.parentElement.parentElement.childNodes.forEach(function (valueChild) {
                     if (valueChild.className === 'image') valueChild.parentNode.removeChild(valueChild);
-
-                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') {
-                      valueChild.type = '';
-                      valueChild.type = 'file';
-                      valueChild.parentElement.childNodes[1].name = valueChild.name;
-                      valueChild.name = '';
-                    }
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') valueChild.value = '';
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'hidden') valueChild.value = '';
                   });
-                });
-                inputArray[i].addEventListener('click', function () {
-                  this.name = arrayInputTypeFileNameJpg[0];
-                  inputArray[i].parentElement.childNodes[1].name = arrayInputTypeHiddenNameJpg[0];
                 });
               }
             });
@@ -1974,22 +1967,14 @@ function checkInputs() {
           if (elem.className === 'image') {
             elem.childNodes.forEach(function (imageChild) {
               if (/delete-image/gi.test(imageChild.className)) {
-                imageChild.addEventListener('click', function (e) {
+                var delImageBtn = imageChild;
+                delImageBtn.addEventListener('click', function (e) {
                   e.preventDefault();
                   this.parentElement.parentElement.childNodes.forEach(function (valueChild) {
                     if (valueChild.className === 'image') valueChild.parentNode.removeChild(valueChild);
-
-                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') {
-                      valueChild.type = '';
-                      valueChild.type = 'file';
-                      valueChild.parentElement.childNodes[1].name = valueChild.name;
-                      valueChild.name = '';
-                    }
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') valueChild.value = '';
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'hidden') valueChild.value = '';
                   });
-                });
-                inputArray[i].addEventListener('click', function () {
-                  this.name = arrayInputTypeFileNameWebp[0];
-                  inputArray[i].parentElement.childNodes[1].name = arrayInputTypeHiddenNameWebp[0];
                 });
               }
             });
@@ -2019,22 +2004,14 @@ function checkInputs() {
           if (elem.className === 'image') {
             elem.childNodes.forEach(function (imageChild) {
               if (/delete-image/gi.test(imageChild.className)) {
-                imageChild.addEventListener('click', function (e) {
+                var delImageBtn = imageChild;
+                delImageBtn.addEventListener('click', function (e) {
                   e.preventDefault();
                   this.parentElement.parentElement.childNodes.forEach(function (valueChild) {
                     if (valueChild.className === 'image') valueChild.parentNode.removeChild(valueChild);
-
-                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') {
-                      valueChild.type = '';
-                      valueChild.type = 'file';
-                      valueChild.parentElement.childNodes[1].name = valueChild.name;
-                      valueChild.name = '';
-                    }
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') valueChild.value = '';
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'hidden') valueChild.value = '';
                   });
-                });
-                inputArray[i].addEventListener('click', function () {
-                  this.name = arrayInputTypeFileNameBgJpg[0];
-                  inputArray[i].parentElement.childNodes[1].name = arrayInputTypeHiddenNameBgJpg[0];
                 });
               }
             });
@@ -2064,17 +2041,13 @@ function checkInputs() {
           if (elem.className === 'image') {
             elem.childNodes.forEach(function (imageChild) {
               if (/delete-image/gi.test(imageChild.className)) {
-                imageChild.addEventListener('click', function (e) {
+                var delImageBtn = imageChild;
+                delImageBtn.addEventListener('click', function (e) {
                   e.preventDefault();
                   this.parentElement.parentElement.childNodes.forEach(function (valueChild) {
                     if (valueChild.className === 'image') valueChild.parentNode.removeChild(valueChild);
-
-                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') {
-                      valueChild.type = '';
-                      valueChild.type = 'file';
-                      valueChild.parentElement.childNodes[1].name = valueChild.name;
-                      valueChild.name = '';
-                    }
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') valueChild.value = '';
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'hidden') valueChild.value = '';
                   });
                 });
                 inputArray[i].addEventListener('click', function () {
@@ -2109,17 +2082,13 @@ function checkInputs() {
           if (elem.className === 'image') {
             elem.childNodes.forEach(function (imageChild) {
               if (/delete-image/gi.test(imageChild.className)) {
-                imageChild.addEventListener('click', function (e) {
+                var delImageBtn = imageChild;
+                delImageBtn.addEventListener('click', function (e) {
                   e.preventDefault();
                   this.parentElement.parentElement.childNodes.forEach(function (valueChild) {
                     if (valueChild.className === 'image') valueChild.parentNode.removeChild(valueChild);
-
-                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') {
-                      valueChild.type = '';
-                      valueChild.type = 'file';
-                      valueChild.parentElement.childNodes[1].name = valueChild.name;
-                      valueChild.name = '';
-                    }
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'file') valueChild.value = '';
+                    if (valueChild.tagName === 'INPUT' && valueChild.type === 'hidden') valueChild.value = '';
                   });
                 });
                 inputArray[i].addEventListener('click', function () {
