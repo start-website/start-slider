@@ -666,6 +666,10 @@ window.addEventListener('load', function () {
                     }
                 })
 
+                this.slider.addEventListener('touchend', function (e) {
+                    clearInterval(timeIndicator);
+                })
+
                 if (indicatorSize >= 100) {
 
                     clearInterval(timeIndicator);

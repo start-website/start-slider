@@ -2422,6 +2422,10 @@ window.addEventListener('load', function () {
             }
           });
 
+          _this9.slider.addEventListener('touchend', function (e) {
+            clearInterval(timeIndicator);
+          });
+
           if (indicatorSize >= 100) {
             clearInterval(timeIndicator);
 
