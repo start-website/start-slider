@@ -543,7 +543,7 @@ window.addEventListener('load', function () {
 
         addBackgroundVideo(slideIndex) {
             const sliderBackground = document.querySelector('.slider-start__bg');
-
+ 
             if (!sliderBackground) {
                 let tagSliderBackground = document.createElement('div');
                 tagSliderBackground.className = 'slider-start__bg';
@@ -553,6 +553,7 @@ window.addEventListener('load', function () {
                 tagVideo.className = 'slider-start__video-bg';
                 tagVideo.setAttribute('src', this.settings[slideIndex].backgroundVideo);
                 tagVideo.setAttribute('autoplay', '');
+                tagVideo.setAttribute('preload', 'metadata');
                 tagVideo.setAttribute('muted', '');
                 tagVideo.setAttribute('loop', '');
                 tagSliderBackground.appendChild(tagVideo);
