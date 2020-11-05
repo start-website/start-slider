@@ -2306,6 +2306,7 @@ window.addEventListener('load', function () {
           tagVideo.className = 'slider-start__video-bg';
           tagVideo.setAttribute('src', this.settings[slideIndex].backgroundVideo);
           tagVideo.setAttribute('autoplay', '');
+          tagVideo.setAttribute('preload', 'metadata');
           tagVideo.setAttribute('muted', '');
           tagVideo.setAttribute('loop', '');
           tagSliderBackground.appendChild(tagVideo);
