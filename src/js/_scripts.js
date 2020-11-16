@@ -289,6 +289,20 @@ window.addEventListener('load', function () {
             if (this.arrows) this.changeColorElemsNavigation(n);
         }
 
+        _sliderResize() {
+            if (this.buttonsSwitches) {
+                const resizeButtonsSwitches = () => {
+                    window.addEventListener('resize', () => {
+                        const buttonsSwitches = document.querySelector('.slider-start__buttons-switches');
+                        buttonsSwitches.parentElement.removeChild(buttonsSwitches);
+                        this.addButtonsSwitches();
+                    })
+                }
+                resizeButtonsSwitches();
+            }
+            
+        }
+
         slideEffects() {
             for (let i = 0; i < this.slideActiveArray.length; i++) {
                 setTimeout(() => {
@@ -748,7 +762,8 @@ window.addEventListener('load', function () {
             } 
 
             if (this.settings) {
-                this.slideEffects();                
+                this.slideEffects();
+                this._sliderResize();             
             } 
         }
     }

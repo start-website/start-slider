@@ -493,6 +493,9 @@
         visibility: hidden;
         opacity: 0;
         transition: opacity 1s ease 2s, visibility 1s ease 1.5s;
+        @media screen and (max-width: 920px) {
+            bottom: 10px;
+        }
     }
 
     &__button-switch {

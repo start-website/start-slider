@@ -652,6 +652,12 @@
   transition: opacity 1s ease 2s, visibility 1s ease 1.5s;
 }
 
+@media screen and (max-width: 920px) {
+  .slider-start__buttons-switches {
+    bottom: 10px;
+  }
+}
+
 .slider-start__button-switch {
   margin: 0 auto;
   display: inline-block;
