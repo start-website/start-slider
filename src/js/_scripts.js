@@ -1586,7 +1586,7 @@ window.addEventListener('load', function () {
                 colorStar: '#24ee35',
                 valueStar: '5',
                 backgroundColor: '#333',
-                backgroundImage: '/images/bg44.jpeg',
+                backgroundImage: './images/bg44.jpeg',
                 backgroundImageWebp: '',
                 //backgroundVideo: './images/cover-video.mp4',
                 videoIframe: '<iframe width="560" height="315" src="https://www.youtube.com/embed/CyL__LjV8vg?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',
