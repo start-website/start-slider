@@ -351,9 +351,12 @@ class StartSlider {
                                 })
                                 tagBannerLink.addEventListener('mousedown', (e) => {
                                     startX = e.clientX;
+                                    
                                 })
                                 tagBannerLink.addEventListener('mouseup', (e) => {
                                     endX = e.clientX;
+                                })
+                                tagBannerLink.addEventListener('click', (e) => {
                                     if (startX == endX) {
                                         window.location.href = settings[slideIndex].buttonLink1;
                                     }
@@ -536,12 +539,13 @@ class StartSlider {
                         let canSwitch = true;
                         elem.style.cursor = 'grab';
                         slides.style.transform = `translate3d(${this.slidePosition}px, 0, 0)`;
-                        if (changeX > (this.slidePosition + (this.sliderWidth / 3))) {
+                        
+                        if (changeX > (this.slidePosition + (this.sliderWidth / 7))) {
                             canSwitch = false;
                             this.supportFunctions.switchSlide('left');
                         }
 
-                        if (changeX < (this.slidePosition - (this.sliderWidth / 3)) && canSwitch) {
+                        if (changeX < (this.slidePosition - (this.sliderWidth / 7)) && canSwitch) {
                             this.supportFunctions.switchSlide('right');
                         }
 
@@ -1438,7 +1442,7 @@ window.addEventListener('load', function () {
         marginTop: '0',
         marginRight: 'auto',
         marginLeft: 'auto',
-        marginBottom: '0',
+        marginBottom: '20',
         buttonsSwitches: true,
         autoPlay: false,
         autoPlaySpeed: 10,

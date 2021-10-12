@@ -131,9 +131,6 @@
 .slider-start__slide {
   position: relative;
   display: inline-block;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
   background-color: inherit;
   height: 100%;
   width: 100%;
@@ -161,6 +158,9 @@
   height: auto;
   z-index: 0;
   overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
 .slider-start__bg[data-animation="background-movement-top"] {

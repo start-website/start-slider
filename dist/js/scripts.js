@@ -2904,7 +2904,8 @@ var StartSlider = function StartSlider(props) {
               });
               tagBannerLink.addEventListener('mouseup', function (e) {
                 endX = e.clientX;
-
+              });
+              tagBannerLink.addEventListener('click', function (e) {
                 if (startX == endX) {
                   window.location.href = settings[slideIndex].buttonLink1;
                 }
@@ -3086,13 +3087,13 @@ var StartSlider = function StartSlider(props) {
           elem.style.cursor = 'grab';
           slides.style.transform = "translate3d(".concat(_this3.slidePosition, "px, 0, 0)");
 
-          if (changeX > _this3.slidePosition + _this3.sliderWidth / 3) {
+          if (changeX > _this3.slidePosition + _this3.sliderWidth / 7) {
             canSwitch = false;
 
             _this3.supportFunctions.switchSlide('left');
           }
 
-          if (changeX < _this3.slidePosition - _this3.sliderWidth / 3 && canSwitch) {
+          if (changeX < _this3.slidePosition - _this3.sliderWidth / 7 && canSwitch) {
             _this3.supportFunctions.switchSlide('right');
           }
 
@@ -3994,7 +3995,7 @@ window.addEventListener('load', function () {
     marginTop: '0',
     marginRight: 'auto',
     marginLeft: 'auto',
-    marginBottom: '0',
+    marginBottom: '20',
     buttonsSwitches: true,
     autoPlay: false,
     autoPlaySpeed: 10,
@@ -4187,7 +4188,7 @@ window.addEventListener('load', function () {
       colorStar: '#24ee35',
       valueStar: '5',
       backgroundColor: '#333',
-      backgroundImage: '/images/bg44.jpeg',
+      backgroundImage: './images/bg44.jpeg',
       backgroundImageWebp: '',
       //backgroundVideo: './images/cover-video.mp4',
       videoIframe: '<iframe width="560" height="315" src="https://www.youtube.com/embed/CyL__LjV8vg?controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>',

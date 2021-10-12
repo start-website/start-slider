@@ -93,7 +93,8 @@ const webpackConfig = {
   mode: isDev ? 'development' : 'production',
   entry: {
     scripts: './src/js/_scripts.js',
-    'backend-webasyst': './src/js/_backend-webasyst.js'
+    'backend-webasyst': './src/js/_backend-webasyst.js',
+    'babel': './src/js/_babel.js'
   },
   output: {
     filename: '[name].js',
